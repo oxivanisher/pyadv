@@ -14,8 +14,7 @@ class Navigator (object):
         while (1):
             print "Location: %s" % (self.player.location.name);
             
-            for roomid in self.player.location.get_connected_rooms():
-                room = self.world.get_room_by_id(roomid);
+            for room in self.player.location.get_connected_rooms():
                 print "You can go to: %s" % (room.name);
             
             
