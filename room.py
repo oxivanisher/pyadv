@@ -35,4 +35,4 @@ class Room(object):
         pass
 
     def get_connected_rooms(self):
-        pass
+        return self.connections;

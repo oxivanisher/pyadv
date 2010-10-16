@@ -14,7 +14,7 @@ class World(object):
         room = self.__add_room(Room("bedroom", "Bedroom"));
         room.set_description("This is where you sleep.");
         
-        self = self.__add_room(Room("toilet", "Toilet"));
+        room = self.__add_room(Room("toilet", "Toilet"));
         room.set_description("This is where you do your private stuff.");
         
         room = self.__add_room(Room("dining_room", "Dining Room"));

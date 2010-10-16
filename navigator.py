@@ -1,22 +1,35 @@
 import sys
 from world import *
-
+from player import *
 
 class Navigator (object):
     
-    def __init__(self, map):
-        self.map = map;
-        self.location = map.get_start_room();
+    def __init__(self, world):
+        self.world = world;
+        self.player = Player(world.get_start_room());
+        
     
     def run(self):
         
         while (1):
-            input = sys.stdin.readline();
+            print "Location: %s" % (self.player.location.name);
+            
+            for roomid in self.player.location.get_connected_rooms():
+                room = self.world.get_room_by_id(roomid);
+                print "You can go to: %s" % (room.name);
+            
+            
+            input = self.__get_input();
             try:
                 num =  int(input);
             except ValueError:
                 num = 1000;
-            print "Your entry: %s (%d)" % (input, num);
+            #print "Your entry: %s (%d)" % (input, num);
                 
         
         print "Hello World\n"
+        
+        
+    def __get_input(self):
+        return sys.stdin.readline();
+    
