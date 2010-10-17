@@ -36,7 +36,7 @@ class World(object):
         
         self.__connect_rooms("bedroom", "toilet");
   
-        self.start_room = self.get_room_by_id("living_room");
+        self.start_room = self.get_room_by_id("entrance");
         
     def get_room_by_id(self, id):
         return self.rooms_by_id[id];

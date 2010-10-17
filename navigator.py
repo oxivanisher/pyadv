@@ -10,32 +10,28 @@ class Navigator (object):
     
     def run(self):
         
-        navigation = Navigation();
-        
         while (1):
-            navigation.clear();
+            nav = Navigation();
             
-            print "Location: %s" % (self.player.location.name);
+            print "You:\t%s" % (self.player.location.name);
+            for room in self.player.location.get_connected_rooms():
+                print "[%d]\t%s" % (nav.add(room), room.name);
+            print "[99]\tExit";
             
             print "Go to: ";
-            for room in self.player.location.get_connected_rooms():
-                print "[%d]\t%s" % (navigation.add(room), room.name);
-                
-        
-            
             input = self.__get_input();
             try:
-                num =  int(input);
+                num = int(input);
             except ValueError:
                 num = 1000;
-            #print "Your entry: %s (%d)" % (input, num);
 
-            if navigation.exists(num):
-                self.player.go_to_room(navigation.get(num));
+            if nav.exists(num):
+                self.player.location = nav.get(num);
+            elif num == 99:
+                break;
             else:
                 print "Unknown key!";
                 
-        
     def __get_input(self):
         return sys.stdin.readline();
     
@@ -43,17 +39,13 @@ class Navigator (object):
 class Navigation (object):
     
     def __init__(self):
-        self.nodes = {};
         self.count = 0;
+        self.nodes = {};
     
     def add(self, content):
         self.count += 1;
         self.nodes[self.count] = content;
         return self.count;
-    
-    def clear(self):
-        self.count = 0;
-        self.nodes.clear();
     
     def get(self, key):
         return self.nodes[key];

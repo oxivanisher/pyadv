@@ -8,9 +8,9 @@ class Player(object):
         self.name = self.__get_name();
         print "Hello %s" % (self.name);
         self.location = location;
-        
-    def go_to_room(self, room):
-        self.location = room;
+    
+    def __del__(self):
+        print "Good bye %s" % (self.name);
         
     def get_location_id(self):
         return self.location;

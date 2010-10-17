@@ -7,14 +7,17 @@ class Room(object):
         self.name = name;
         self.description = "";
         self.connections = [];
+        
+    def __repr__(self):
+        return self.id;
     
     def connect(self, room):
         self.connections.append(room);
-        room.connections.append(self.name);
+        room.connections.append(self);
     
     def disconnect(self, room):
         self.connections.remove(room);
-        room.connections.remove(self.name);
+        room.connections.remove(self);
     
     def get_id(self):
         return self.id;
