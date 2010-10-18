@@ -1,11 +1,8 @@
-from navigator import *
+from game import *
 from world import *
 
 def main():
-    world = World();
-    world.build();
-    navigator = Navigator(world);
-    navigator.run();
-    
+    game = Game()
+    game.run()
     
 main();

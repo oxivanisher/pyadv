@@ -1,6 +1,7 @@
 from item import *
 
 class Room(object):
+    """ This class represents a room. """
     
     def __init__(self, id, name):
         self.id = id;

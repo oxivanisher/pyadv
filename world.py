@@ -1,12 +1,14 @@
 from room import *
+from player import *
 
 class World(object):
     
     def __init__(self):
-        self.rooms = [];
+        self.__rooms = [];
         self.rooms_by_id = {};
-        self.start_room = None;
-    
+        self.__player = Player(None)
+
+
     def build(self):
         room = self.__add_room(Room("living_room", "Living Room"));
         room.set_description("This is where you live.");
@@ -35,23 +37,28 @@ class World(object):
         self.__connect_rooms("dining_room", "balcony");
         
         self.__connect_rooms("bedroom", "toilet");
-  
-        self.start_room = self.get_room_by_id("entrance");
+
+        self.__player.location = self.get_room_by_id("entrance")
         
     def get_room_by_id(self, id):
         return self.rooms_by_id[id];
-        
-    def get_start_room(self):
-        return self.start_room;
   
     def __connect_rooms(self, a, b):
         room_a = self.get_room_by_id(a);
         room_b = self.get_room_by_id(b);
         room_a.connect(room_b);
     
-    
     def __add_room(self, room):
-        self.rooms.append(room);
+        self.__rooms.append(room);
         self.rooms_by_id[room.get_id()] = room;
         return room;
+    
+    def __get_rooms(self):
+        return self.__rooms
+    
+    def __get_player(self):
+        return self.__player
+    
+    rooms = property(__get_rooms, None)
+    player = property(__get_player, None)
     
