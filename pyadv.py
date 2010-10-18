@@ -5,4 +5,4 @@ def main():
     game = Game()
     game.run()
     
-main();
+main()
