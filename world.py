@@ -1,32 +1,37 @@
 from room import *
 from player import *
+from content import *
 
 class World(object):
     
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
         self.__rooms = []
-        self.rooms_by_id = {}
-        self.__player = Player(None)
-
+        self.__rooms_by_id = {}
+        self.__items = []
+        self.__items_by_id = {}
+        self.__player = Player(game, None)
 
     def build(self):
-        room = self.__add_room(Room("living_room", "Living Room"))
+        room = self.__add_room(Room(self.game, "living_room", "Living Room"))
         room.set_description("This is where you live.")
+        self.__add_item(Item(self.game, "table", "A Table"), room.inventory)
         
-        room = self.__add_room(Room("bedroom", "Bedroom"))
+        room = self.__add_room(Room(self.game, "bedroom", "Bedroom"))
         room.set_description("This is where you sleep.")
         
-        room = self.__add_room(Room("toilet", "Toilet"))
+        room = self.__add_room(Room(self.game, "toilet", "Toilet"))
         room.set_description("This is where you do your private stuff.")
         
-        room = self.__add_room(Room("dining_room", "Dining Room"))
+        room = self.__add_room(Room(self.game, "dining_room", "Dining Room"))
         room.set_description("This is where you eat your Meal.")
         
-        room = self.__add_room(Room("balcony", "Balcony"))
+        room = self.__add_room(Room(self.game, "balcony", "Balcony"))
         room.set_description("This is where you Chill.")
 
-        room = self.__add_room(Room("entrance", "Entrance"))
+        room = self.__add_room(RoomEntrance(self.game, "entrance", "Entrance"))
         room.set_description("This is where you enter the Flat.")
+        self.__add_item(Item(self.game, "gun_rack", "A Gun Rack"), room.inventory)
 
         self.__connect_rooms("living_room", "bedroom")
         self.__connect_rooms("living_room", "dining_room")
@@ -38,10 +43,12 @@ class World(object):
         
         self.__connect_rooms("bedroom", "toilet")
 
-        self.__player.location = self.get_room_by_id("entrance")
+        self.__add_item(Item(self.game, "pen", "A Pen"), self.player.inventory)
+        self.__add_item(Item(self.game, "paper", "A piece of Paper"), self.player.inventory)
+        
         
     def get_room_by_id(self, id):
-        return self.rooms_by_id[id]
+        return self.__rooms_by_id[id]
   
     def __connect_rooms(self, a, b):
         room_a = self.get_room_by_id(a)
@@ -50,8 +57,16 @@ class World(object):
     
     def __add_room(self, room):
         self.__rooms.append(room)
-        self.rooms_by_id[room.get_id()] = room
+        self.__rooms_by_id[room.get_id()] = room
         return room
+    
+    def __add_item(self, item, inventory):
+        self.__rooms.append(item)
+        self.__rooms_by_id[item.get_id()] = item
+        inventory.add_item(item)
+    
+    def get_item_by_id(self, id):
+        return self.__items_by_id[id]
     
     def __get_rooms(self):
         return self.__rooms
